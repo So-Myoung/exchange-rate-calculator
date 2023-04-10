@@ -1,0 +1,92 @@
+*{
+    box-sizing: border-box;
+}
+body{
+    font-family: "Open Sans", sans-serif;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    flex-direction: column;
+    background-color: #fff;
+}
+
+
+.img{
+    width: 150px;
+    height: 150px;
+}
+
+.ercword{
+    color: rgb(215, 127, 12);
+}
+
+.currency{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px 0;
+}
+
+.currency input{
+    text-align: right;
+    padding: 1px 2px;
+    border: none;
+    font-size: 30px;
+}
+
+.selectcurrency{
+    padding: 10px 20px 10px 10px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid #777;
+    background: transparent;
+
+}
+
+.swap-rate-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.rate {
+    color: rgb(215, 127, 12);
+    font-weight: bolder;
+    font-size: 18px;
+    padding: 0 10px;
+}
+
+.swap{
+    width: 57px;
+    height: 30px;
+    padding-left: 27px;
+}
+
+.swap:hover{
+    transform: scale(1.2);
+    transition-duration: 300ms;
+}
+
+.container {
+    width: 500px;
+    margin: auto;
+}
+
+.calculator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2rem;
+    padding: 1rem;
+    border-radius: 1rem;
+    border: 2px solid rgb(215, 127, 12);
+    background-color: rgb(246, 243, 197);
+}
+
+.clock, .country {
+    color: #545454;
+}
