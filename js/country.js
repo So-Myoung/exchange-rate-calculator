@@ -10,6 +10,6 @@ const getCountryCode = async () => {
     }
 }
 
-getCountryCode().then(result => {
-    country.innerText = `${result[0]} / ${result[1]}`;
+getCountryCode().then(location => {
+    country.innerText = `${location[0]} / ${location[1]}`;
 });

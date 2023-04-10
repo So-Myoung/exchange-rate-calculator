@@ -1,35 +1,65 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const currencyOne = document.getElementById("currencyOne");
-    const amountOne = document.getElementById("amount-one");
-    const currencyTwo = document.getElementById("currencyTwo");
-    const amountTwo = document.getElementById("amount-two");
-    const swap = document.getElementById("swap");
-    const rate = document.getElementById("rate");
-    const updateCurrency = async () => {
-    const url = await fetch(
-        `https://v6.exchangerate-api.com/v6/52f1f656328d5996e352de41/latest/${currencyOne.value}`
-    );
+const cboCurrency1 = document.getElementById("cboCurrency1");
+const txtCurrency1 = document.getElementById("txtCurrency1");
+const cboCurrency2 = document.getElementById("cboCurrency2");
+const txtCurrency2 = document.getElementById("txtCurrency2");
+const rate = document.getElementById("rate");
+const btnSwap = document.getElementById("btnSwap");
 
-    data = await url.json();
-    rate.innerText = `1 ${currencyOne.value} = ${data.conversion_rates[currencyTwo.value]}${currencyTwo.value}`;
+// API로 환율 정보 받아오기
+async function getExchangeRate(fromCurrency, toCurrency) {
+  const response = await fetch(
+    `https://v6.exchangerate-api.com/v6/b559d464028fab1cbbae8dba/latest/${fromCurrency}`
+  );
+  const data = await response.json();
+  const exchangeRate = data.conversion_rates[toCurrency];
+  return exchangeRate;
+}
 
-    amountTwo.value = (
-        amountOne.value * data.conversion_rates[currencyTwo.value]
-    ).toFixed(2);
-    };
-    
-    updateCurrency();
+function calculateClosure() {
+  let exchangeRate, convertedAmount;
 
-    function changeCurrency() {
-    let temp;
-    temp = currencyTwo.value;
-    currencyTwo.value = currencyOne.value;
-    currencyOne.value = temp;
-    updateCurrency();
+  return async function (e) {
+    let inputId = e === undefined ? "txtCurrency1" : e.target.id;
+    let fromCurrency =
+      inputId === "txtCurrency1" ? cboCurrency1.value : cboCurrency2.value;
+    let toCurrency =
+      inputId === "txtCurrency1" ? cboCurrency2.value : cboCurrency1.value;
+    let amount =
+      inputId === "txtCurrency1" ? txtCurrency1.value : txtCurrency2.value;
+
+    exchangeRate = await getExchangeRate(fromCurrency, toCurrency);
+    convertedAmount = (amount * exchangeRate).toFixed(5);
+
+    rate.innerText = `1 ${fromCurrency} = ${exchangeRate.toFixed(
+      5
+    )} ${toCurrency}`;
+
+    if (inputId === "txtCurrency1") {
+      txtCurrency2.value = convertedAmount;
+    } else {
+      txtCurrency1.value = convertedAmount;
     }
+  };
+}
 
-    currencyOne.addEventListener("change", updateCurrency);
-    currencyTwo.addEventListener("change", updateCurrency);
-    amountOne.addEventListener("input", updateCurrency);
-    swap.addEventListener("click", changeCurrency);
+const calculate = calculateClosure();
+
+calculate();
+
+cboCurrency1.addEventListener("change", calculate);
+cboCurrency2.addEventListener("change", calculate);
+txtCurrency1.addEventListener("input", function (e) {
+  calculate(e);
 });
+txtCurrency2.addEventListener("input", function (e) {
+  calculate(e);
+});
+btnSwap.addEventListener("click", swapCurrencies);
+
+function swapCurrencies() {
+  const temp = cboCurrency1.value;
+  cboCurrency1.value = cboCurrency2.value;
+  cboCurrency2.value = temp;
+
+  calculate();
+}
