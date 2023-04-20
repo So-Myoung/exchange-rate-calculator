@@ -30,9 +30,7 @@ function calculateClosure() {
     exchangeRate = await getExchangeRate(fromCurrency, toCurrency);
     convertedAmount = (amount * exchangeRate).toFixed(5);
 
-    rate.innerText = `1 ${fromCurrency} = ${exchangeRate.toFixed(
-      5
-    )} ${toCurrency}`;
+    rate.innerText = `1 ${fromCurrency} = ${exchangeRate.toFixed(5)} ${toCurrency}`;
 
     if (inputId === "txtCurrency1") {
       txtCurrency2.value = convertedAmount;
